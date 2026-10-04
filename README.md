@@ -1,9 +1,12 @@
 # personal-weather-assistant
 simple weather assistant that recommends clothes or activities
 
-A Python/FastAPI backend: give it a **city** and a **date**, it fetches the forecast from
+Give it a **city** and a **date**: it fetches the forecast from
 [OpenWeatherMap](https://openweathermap.org/api) and asks an LLM on [Groq](https://console.groq.com)
 to recommend clothing, activities and practical tips.
+
+- **Backend:** Python and FastAPI, in `app/`
+- **Frontend:** React, TypeScript and Vite, in `frontend/`. See [Frontend](#frontend).
 
 ## Project layout
 
@@ -18,6 +21,12 @@ app/
   services/recommender.py  Groq client + prompt
 tests/                  pytest suite (all external APIs mocked)
 scripts/manual_test.sh  curl smoke test against a running server
+frontend/
+  src/App.tsx           Page layout and request state
+  src/api.ts            Backend client
+  src/types.ts          TypeScript mirror of app/models.py
+  src/components/       SearchForm, WeatherResult
+  src/App.test.tsx      Vitest + Testing Library tests
 ```
 
 ## Requirements
@@ -26,6 +35,7 @@ scripts/manual_test.sh  curl smoke test against a running server
 - An OpenWeatherMap API key (free tier is enough) — https://home.openweathermap.org/api_keys
   (new keys can take up to ~2 hours to activate)
 - A Groq API key — https://console.groq.com/keys
+- Node.js 20.19+ or 22.12+ (frontend only)
 
 ## Setup
 
@@ -175,6 +185,53 @@ curl "http://localhost:8000/api/v1/weather?city=Zagreb&date=2026-10-05"
 - An unknown city such as `"city": "Atlantis123"` should return 404.
 - A date more than 5 days ahead, or in the past, should return 422.
 - Remove a key from `.env` and restart the server. It should return 503.
+
+## Frontend
+
+A single-page React app. Enter a city, pick a date (the picker only allows today through 5 days
+ahead) and choose °C or °F. It shows the day's overview, an hourly strip and the clothing,
+activities and tips cards.
+
+### Run it (development)
+
+You need two terminals:
+
+```bash
+# Terminal 1 — backend (from the repo root)
+source .venv/bin/activate
+uvicorn app.main:app --reload
+
+# Terminal 2 — frontend
+cd frontend
+npm install        # first time only
+npm run dev
+```
+
+Open http://localhost:5173. The Vite dev server forwards `/api/*` requests to
+`http://localhost:8000`, so you don't need any CORS setup. If the backend runs somewhere else,
+start Vite with `BACKEND_URL=http://host:port npm run dev`.
+
+### Frontend tests
+
+The tests mock `fetch`, so the backend doesn't need to be running.
+
+```bash
+cd frontend
+npm test              # run once
+npm run test:watch    # re-run on file changes
+npx tsc -b            # type-check only
+```
+
+### Production build
+
+```bash
+cd frontend
+VITE_API_BASE_URL=https://your-api.example.com npm run build   # output goes to frontend/dist/
+npm run preview                                                # serve the build locally
+```
+
+Leave out `VITE_API_BASE_URL` if the API is served from the same origin as the static files. If it's
+on a different origin, add the frontend's origin to the backend's `CORS_ORIGINS`.
 
 ## Known limitations
 

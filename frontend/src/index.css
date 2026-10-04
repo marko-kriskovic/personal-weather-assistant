@@ -1,0 +1,231 @@
+:root {
+  --bg: #f3f6fb;
+  --card: #ffffff;
+  --text: #1c2433;
+  --muted: #667085;
+  --border: #e3e8f0;
+  --accent: #2f6fed;
+  --accent-text: #ffffff;
+  --error-bg: #fdecec;
+  --error-text: #9b1c1c;
+  --radius: 14px;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11151c;
+    --card: #1a2029;
+    --text: #e6e9ef;
+    --muted: #98a2b3;
+    --border: #2a323e;
+    --accent: #5b8def;
+    --error-bg: #3a1d1f;
+    --error-text: #f5b5b5;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+.app {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+}
+
+/* Search form */
+.search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.field-city {
+  flex: 1 1 220px;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  font-size: 1rem;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 0 12px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button {
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  padding: 0 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  border-color: transparent;
+}
+
+.loading {
+  text-align: center;
+  padding: 24px;
+}
+
+/* Results */
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  align-items: center;
+}
+
+.overview-icon {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.overview-main {
+  flex: 1 1 200px;
+}
+
+.temps {
+  font-size: 1.6rem;
+}
+
+.conditions {
+  text-transform: capitalize;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, auto));
+  gap: 8px 24px;
+  margin: 0;
+}
+
+.stats dt {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.stats dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.hourly {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.hour {
+  flex: 1 0 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+
+.hour-icon {
+  font-size: 1.5rem;
+}
+
+.hour-pop {
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
+.summary {
+  font-size: 1.1rem;
+}
+
+.advice {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.advice-card h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.advice-card ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.advice-card li + li {
+  margin-top: 4px;
+}
